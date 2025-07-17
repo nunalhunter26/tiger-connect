@@ -1,0 +1,11 @@
+{
+  "order-export-action": {
+    "titleOrderExport": "Tiger Connect Order Export",
+    "descriptionTags": "Order Flow"
+  },
+  "order-list": {
+    "labelSuccess": "Success",
+    "labelFailed": "Failed",
+    "labelNull": "N/A"
+  }
+}

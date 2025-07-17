@@ -1,0 +1,10 @@
+{% block export_component_button %}
+    <sw-button
+            variant="primary"
+            :disabled="isLoading || isProcessed"
+            @click.prevent="onExport"
+            style="float: right"
+    >
+        {{ $tc('tigerConnect.order.btnLabel') }}
+    </sw-button>
+{% endblock %}

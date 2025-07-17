@@ -1,0 +1,93 @@
+<sw-card-view>
+    <template v-if="isLoading">
+        <sw-skeleton variant="detail-bold" />
+        <sw-skeleton />
+    </template>
+
+    <sw-card
+            v-else
+            :large="true"
+    >
+        <template #title>
+            <div class="sw-card__title">
+                Tiger Connect Logs
+            </div>
+        </template>
+
+        <template #subtitle>
+            <div class="sw-card__subtitle">
+                <small>
+                    ERP Order Identifier:
+                    <span v-if="order.customFields?.tiger_connect_custom_field_set_erp_order_number">{{ order.customFields.tiger_connect_custom_field_set_erp_order_number }}</span>
+                    <span v-else>N/A</span>
+                </small>
+            </div>
+        </template>
+
+        <template #toolbar>
+            <sw-button variant="ghost" @click="createdComponent"><sw-icon :small="true" name="regular-undo"></sw-icon></sw-button>
+            <export-component-button/>
+        </template>
+
+        <sw-data-grid
+                :showSelection="false"
+                :showActions="false"
+                :dataSource="logs"
+                :columns="columns">
+            <template #column-createdAt="{ item }">
+                {{ date(item.createdAt, {hour: '2-digit', minute: '2-digit', second: '2-digit'}) }}
+            </template>
+            <template #column-message="{ item }">
+                <a @click="showInfoModal(item)">{{ item.message }}</a>
+            </template>
+
+        </sw-data-grid>
+
+        <sw-pagination
+                :total="total"
+                :limit="limit"
+                :page="page"
+                @page-change="onPageChange"
+        ></sw-pagination>
+    </sw-card>
+
+    <sw-modal v-if="displayLog"
+              variant="large"
+              @modal-close="displayLog = null"
+    >
+
+        <template slot="modal-header">
+            <div class="sw-modal__titles">
+                <h4 class="sw-modal__title">
+                    Tiger Connect - {{ displayLog.level }}
+                </h4>
+
+                <h5 class="sw-modal__subtitle">
+                    {{ displayLog.createdAt | date({hour: '2-digit', minute: '2-digit', second: '2-digit'}) }}
+                </h5>
+            </div>
+
+            <button
+                    class="sw-modal__close"
+                    :title="$tc('global.sw-modal.labelClose')"
+                    :aria-label="$tc('global.sw-modal.labelClose')"
+                    @click="displayLog = null"
+            >
+                <sw-icon
+                        name="regular-times-s"
+                        small
+                />
+            </button>
+        </template>
+
+        <div>
+            <sw-code-editor
+                    v-if="isJson"
+                    :disabled="true"
+                    v-model="beautify"
+            />
+
+            <article v-else>{{ displayLog.message }}</article>
+        </div>
+    </sw-modal>
+</sw-card-view>

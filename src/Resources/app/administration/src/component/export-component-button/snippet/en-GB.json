@@ -1,0 +1,8 @@
+{
+  "tigerConnect": {
+    "order": {
+      "btnLabel": "Transfer to ERP",
+      "errorMsg": "Something went wrong."
+    }
+  }
+}

@@ -1,0 +1,3 @@
+{# Change the contents of the template within the TigerConnect base plugin config #}
+{# Or you could remove the pre-defined content here and edit it to your liking #}
+{{ tiger_connect_render(config('TigerConnect.config.mailContents'), {'order': order, 'salesChannel': salesChannel}) }}

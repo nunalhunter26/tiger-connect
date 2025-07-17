@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Commands -->
+        <service id="TigerMedia\TigerConnect\Command\OrderExportCommand">
+            <tag name="console.command"/>
+            <argument type="service" id="tiger_connect.service.order"/>
+        </service>
+
+        <!-- Services -->
+        <service id="tiger_connect.service.order" class="TigerMedia\TigerConnect\Service\OrderInterface"/>
+        <service id="tiger_connect.service.mail" class="TigerMedia\TigerConnect\Service\MailService">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="mail_template.repository"/>
+            <argument type="service" id="Shopware\Core\Content\Mail\Service\MailService"/>
+        </service>
+
+        <!-- Helpers -->
+        <service id="TigerMedia\TigerConnect\Helper\OrderHelper">
+            <argument type="service" id="Symfony\Contracts\EventDispatcher\EventDispatcherInterface"/>
+            <argument type="service" id="order.repository"/>
+            <argument type="service" id="Shopware\Core\Framework\Api\Sync\SyncService"/>
+            <argument type="service" id="tiger_connect.service.mail"/>
+            <argument type="service" id="monolog.logger.tiger_connect.general"/>
+        </service>
+
+        <!-- Message Handlers -->
+        <service id="TigerMedia\TigerConnect\MessageQueue\OrderHandler">
+            <tag name="messenger.message_handler"/>
+            <argument type="service" id="tiger_connect.service.order"/>
+        </service>
+
+        <service id="TigerMedia\TigerConnect\Controller\OrderExportController" public="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <argument type="service" id="tiger_connect.service.order"/>
+        </service>
+
+        <!-- Entities -->
+        <service id="TigerMedia\TigerConnect\Core\Content\Logger\LoggerDefinition">
+            <tag name="shopware.entity.definition" entity="tiger_connect_logger"/>
+        </service>
+
+        <!-- Flow -->
+        <service id="TigerMedia\TigerConnect\Core\Content\Flow\Dispatching\Action\OrderExportAction">
+            <tag name="flow.action" priority="600" key="action.tiger_connect.order.export"/>
+            <argument type="service" id="Symfony\Component\Messenger\MessageBusInterface"/>
+            <argument type="service" id="TigerMedia\TigerConnect\Helper\OrderHelper"/>
+        </service>
+
+        <service id="TigerMedia\TigerConnect\Twig\Extension\MailTemplateExtension">
+            <tag name="twig.extension"/>
+        </service>
+    </services>
+</container>

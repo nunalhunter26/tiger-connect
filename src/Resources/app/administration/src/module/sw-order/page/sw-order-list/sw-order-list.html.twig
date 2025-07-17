@@ -1,0 +1,13 @@
+{% block sw_order_list_grid_columns_order_number %}
+    <template #column-customFields.tiger_connect_custom_field_set_processed="{ item }">
+        <sw-label
+                :variant="getVariant(item.customFields?.tiger_connect_custom_field_set_processed)"
+                appearance="pill"
+                size="medium"
+                class="sw-order-list__manual-order-label"
+                style="width: 80px; justify-content: center;"
+        >
+            {{ getLabel(item.customFields?.tiger_connect_custom_field_set_processed) }}
+        </sw-label>
+    </template>
+{% endblock %}

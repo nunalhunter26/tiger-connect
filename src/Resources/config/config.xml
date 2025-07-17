@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title>Mail Recipients</title>
+        <component name="mail-select-config">
+            <name>mailSelectConfig</name>
+        </component>
+        <input-field type="textarea">
+            <name>mailContents</name>
+            <label>Mail Contents</label>
+        </input-field>
+    </card>
+
+    <card>
+        <title>LineItem Settings</title>
+        <component name="line-item-type-selection">
+            <name>lineItemTypes</name>
+        </component>
+    </card>
+</config>

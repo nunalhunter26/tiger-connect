@@ -1,0 +1,20 @@
+<sw-data-grid
+        :showSelection="false"
+        :columns="getColumns"
+        :dataSource="mailRecipients"
+        :allow-inline-edit="true"
+        @inline-edit-save="onInlineEditSave"
+        itemIdentifierProperty="email"
+>
+    <template
+            #actions="{ item }"
+    >
+            <sw-context-menu-item
+                    variant="danger"
+                    :disabled="false"
+                    @click="onOptionDelete(item)"
+            >
+                {{ $tc('sw-product.variations.generatedListContextMenuDelete') }}
+            </sw-context-menu-item>
+    </template>
+</sw-data-grid>

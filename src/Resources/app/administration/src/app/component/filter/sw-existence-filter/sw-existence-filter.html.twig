@@ -1,0 +1,27 @@
+{% block sw_existence_filter_content %}
+    <sw-select-field
+            :value="value"
+            :placeholder="filter.placeholder"
+            @update:value="changeValue"
+            @change="changeValue"
+    >
+        <option :value="true">
+            {{ filter.optionHasCriteria }}
+        </option>
+        <option
+                v-if="filter.name === 'tiger-connect-status-filter'"
+                value="false"
+        >
+            {{ filter.optionNoCriteria }}
+        </option>
+        <option
+                v-else
+                :value="false"
+        >
+            {{ filter.optionNoCriteria }}
+        </option>
+        <option value="null" v-if="filter.name === 'tiger-connect-status-filter'">
+            {{ filter.optionNullCriteria }}
+        </option>
+    </sw-select-field>
+{% endblock %}
